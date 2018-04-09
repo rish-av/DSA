@@ -92,12 +92,60 @@ void delete(Node bt,Node del){
 }
 
 //AVL operations, study this first
-
-void rotate(Node bt,Node X,Node Y,Node Z){
-
+Node rotate(Node bt,Node X,Node Y,Node Z,Node parent){
+	if(Z->left == Y && Y->left == X){
+		Node t1 = Y->right;
+		Y->right = Z;
+		Z->left = t1;
+		parent = Y;
+		Y->left->heightbalance = 1;
+		Y->rigt->heightbalance = 1;
+	}
+	else if(Z->right == Y && Y->right==X){
+		Node t1 = Y->left;
+		Y->left = Z;
+		Z->right = t1;
+		parent = Y;
+		Y->left->heightbalance = 1;
+		Y->rigt->heightbalance = 1;
+	}
+	else if(Z->right == Y && Y->left == X){
+		Node t2 = X->right;
+		Z->right = X;
+		X->right = Y;
+		Y->left = t2;
+		Node t1 = X->left;
+		X->left = Z;
+		Z->right = t1;
+		parent = X;
+		X->left->heightbalance = 1;
+		X->rigt->heightbalance = 1;
+	}
+	else if(Z->left == Y && Y->right == X){
+		Node t2 = X->left;
+		Z->left = X;
+		X->left = Y;
+		Y->right = t2;
+		Node t1 = X->right;
+		X->right = Z;
+		Z->left = t1;
+		parent = X;
+		X->left->heightbalance = 1;
+		X->rigt->heightbalance = 1;
+	}
+	return bt;
 }
-Node modifiedadd(){
-
+Node modifiedadd(Node bt,Node add){
+	bt = add(bt,add);
+	Node Z = add;
+	Node X = NULL;
+	Node Y = NULL;
+	while(Z->heightbalance!=0){
+		Z = parent(add);
+		Y = Z;
+		X = Y;
+	}
+	rotate(bt,X,Y,Z);
 }
 Node modifieddelete(){
 	
