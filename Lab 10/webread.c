@@ -31,7 +31,59 @@
 #include <unistd.h>
 
 #include <curl/curl.h>
+typedef struct node* Node;
+typedef struct{
+	char* url;
+	Node next;
+}node;
+typedef struct queue* Queue;
+typedef struct{
+	Node first;
+	int size;
+}queue;
+Queue push(Node a,Queue q){
+	if(q->first==NULL){
+		q->first = a;
+		q->size++;
+	}
+	else{
+		Node temp = q->first;
+		while(temp->next!=NULL){
+			temp = temp->next;
+		}
+		temp->next = a;
+		q->size++;
+	}
+	return q;
+}
+Node pop(Queue q){
+	if(q->first==NULL){
+		return NULL;
+	}
+	else{
+		Node temp = q->first;
+		q->first = q->first->next;
+		q->size--;
+		return temp;
+	}
+	
+}
+Queue newQueue(){
+	Queue q = (Queue)malloc(sizeof(queue));
+	q->first = NULL;
+	q->size = 0;
+}
+Node newNode(char* ch){
+	Node a = (Node)malloc(sizeof(struct node));
+	a->url = ch;
+	a->next = NULL;
+	return a;
+}
 
+
+void bfs(){
+	
+}
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream)
 {
   size_t written = fwrite(ptr, size, nmemb, (FILE *)stream);
